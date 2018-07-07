@@ -1,26 +1,26 @@
-<?php 
+<?php
 	include('functions.php');
 	if (!isLoggedIn()) {
-	$_SESSION['msg'] = "Tienes que Logearte Primero";
-	header('location: login.php');
-}
+		$_SESSION['msg'] = "Tienes que Logearte Primero";
+		header('location: login.php');
+	}
 
 ?>
-<?php 
+<?php
 
-$max = 1000000; 
-$aleatorio = mt_rand(1, $max); //Genereamos aleatorio 
-$usados[] = $aleatorio; //Guardamos el primero en un array ya que el primero no puede estar repetido 
+$max = 1000000;
+$aleatorio = mt_rand(1, $max); //Genereamos aleatorio
+$usados[] = $aleatorio; //Guardamos el primero en un array ya que el primero no puede estar repetido
 
-for ($i = 0; $i < 6; $i++) { 
-     
-    $aleatorio = mt_rand(1, $max); //Generamos aleatorio 
-    while(in_array($aleatorio,$usados)) { //buscamos que no este repetido 
-        $aleatorio = mt_rand(1, $max); 
-    } 
+for ($i = 0; $i < 6; $i++) {
 
-    $usados[] = $aleatorio;    //No esta repetido, luego guardamos el aleatorio 
-} 
+    $aleatorio = mt_rand(1, $max); //Generamos aleatorio
+    while(in_array($aleatorio,$usados)) { //buscamos que no este repetido
+        $aleatorio = mt_rand(1, $max);
+    }
+
+    $usados[] = $aleatorio;    //No esta repetido, luego guardamos el aleatorio
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,8 +37,8 @@ for ($i = 0; $i < 6; $i++) {
 		<?php if (isset($_SESSION['success'])) : ?>
 			<div class="error success" >
 				<h3>
-					<?php 
-						echo $_SESSION['success']; 
+					<?php
+						echo $_SESSION['success'];
 						unset($_SESSION['success']);
 					?>
 				</h3>
@@ -48,39 +48,38 @@ for ($i = 0; $i < 6; $i++) {
 		<div class="profile_info">
 			<img src="images/user_profile.png">
 			<div>
-				<?php  if (isset($_SESSION['user'])) : ?>
-             
+				<?php  if (isset($_SESSION['user'])) { ?>
+
 					<strong><?php echo $_SESSION ['user']['username']; ?></strong>
 
 					<small>
-						<i  style="color: #888;">(<?php echo ucfirst($_SESSION ['user']['user_type']); ?>)</i> 
+						<i  style="color: #888;">(<?php echo ucfirst($_SESSION ['user']['user_type']); ?>)</i>
 						<br>
 						<a href="index.php?logout='1'" style="color: red;">Salir</a>
 					</small>
 
-				<?php endif ?>
+				<?php } ?>
 			</div>
-            <?php
-	
+<?php
+
 	$query = "SELECT * FROM users WHERE id='$id'";
 	$result = mysqli_query($db, $query);
 	$user = mysqli_fetch_assoc($result);
-	return $user;
 	$user=['id'];
 ?>
-		</div> 
+		</div>
         <form method="post" action="">
 <?php echo display_error(); ?>
 	<div class="input-group">
 		<label>Username</label>
 		<input type="text" name="username" value="<?php echo $str['username']; ?>">
 	</div>
-    
+
      <div class="input-group">
 		<label>Department</label>
 		<input type="text" name="area" value="<?php echo $str['area']; ?>">
 	</div>
-    
+
      <div class="input-group">
 		<label>No. Ticket</label>
 		<input type="text" name="numero" value="<?php echo $aleatorio; ?>"/>
@@ -111,4 +110,3 @@ for ($i = 0; $i < 6; $i++) {
 	</div>
 </body>
 </html>
-

@@ -1,15 +1,15 @@
-<?php 
+<?php
 session_start();
 
 // connect to database
-$db = mysqli_connect('localhost', 'root', '', 'multi_login');
+$db = mysqli_connect('localhost', 'root', 'root', 'multi_login');
 
 // variable declaration
 $username = "";
 $user_type = "";
 $area = "";
 $email    = "";
-$errors   = array(); 
+$errors   = [];
 
 // call the register() function if register_btn is clicked
 if (isset($_POST['register_btn'])) {
@@ -31,20 +31,20 @@ function register(){
 	$password_2  =  e($_POST['password_2']);
 
 	// form validation: ensure that the form is correctly filled
-	if (empty($username)) { 
-		array_push($errors, "Username is required"); 
+	if (empty($username)) {
+		array_push($errors, "Username is required");
 	}
-	if (empty($user_type)) { 
-		array_push($errors, "User type is required"); 
+	if (empty($user_type)) {
+		array_push($errors, "User type is required");
 	}
-	if (empty($user_type)) { 
-		array_push($errors, "Area is required"); 
+	if (empty($user_type)) {
+		array_push($errors, "Area is required");
 	}
-	if (empty($email)) { 
-		array_push($errors, "Email is required"); 
+	if (empty($email)) {
+		array_push($errors, "Email is required");
 	}
-	if (empty($password_1)) { 
-		array_push($errors, "Password is required"); 
+	if (empty($password_1)) {
+		array_push($errors, "Password is required");
 	}
 	if ($password_1 != $password_2) {
 		array_push($errors, "The two passwords do not match");
@@ -56,11 +56,11 @@ function register(){
 
 		if (isset($_POST['user_type'])) {
 			$user_type = e($_POST['user_type']);
-			$query = "INSERT INTO users (username, email, user_type, area, password) 
+			$query = "INSERT INTO users (username, email, user_type, area, password)
 					  VALUES('$username', '$email', '$user_type', '$area', '$password')";
 			mysqli_query($db, $query);
 			header('location: login.php');
-			
+
 		}
 	}
 }
@@ -91,7 +91,7 @@ function display_error() {
 			}
 		echo '</div>';
 	}
-}	
+}
 
 function isLoggedIn()
 {
@@ -135,20 +135,20 @@ function login(){
 		$query = "SELECT * FROM users WHERE username='$username' AND password='$password' LIMIT 1";
 		$results = mysqli_query($db, $query);
 
-		
+
 if (mysqli_num_rows($results) == 1) {
     $logged_in_user = mysqli_fetch_assoc($results);
-	} 
+	}
 	if ($logged_in_user['user_type'] == 'admin')
 		{
-						
+
     			$_SESSION['user'] = $logged_in_user;
 				$_SESSION['success']  = "Welcome to SUDDAPLDT";
-				header('location: admin/home.php');	
+				header('location: admin/home.php');
 		}
 		elseif ($logged_in_user['user_type'] == 'user')
 			{
-					
+
     			$_SESSION['user'] = $logged_in_user;
 				$_SESSION['success']  = "Welcome to SUDDAPLDT";
 
@@ -156,7 +156,7 @@ if (mysqli_num_rows($results) == 1) {
 			}
 		elseif ($logged_in_user['user_type'] == 'support')
 					{
-						
+
 				$_SESSION['user'] = $logged_in_user;
 				$_SESSION['success']  = "Welcome to SUDDAPLDT";
 
@@ -168,6 +168,7 @@ if (mysqli_num_rows($results) == 1) {
 		}
 	}
 }
+
 function isAdmin()
 {
 	if (isset($_SESSION['user']) && $_SESSION['user']['user_type'] == 'admin') {
