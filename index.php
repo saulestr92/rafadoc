@@ -34,7 +34,7 @@ for ($i = 0; $i < 6; $i++) {
 	</div>
 	<div class="content">
 		<!-- notification message -->
-		<?php if (isset($_SESSION['success'])) : ?>
+		<?php if (isset($_SESSION['success'])) { ?>
 			<div class="error success" >
 				<h3>
 					<?php
@@ -43,7 +43,7 @@ for ($i = 0; $i < 6; $i++) {
 					?>
 				</h3>
 			</div>
-		<?php endif ?>
+		<?php } ?>
 		<!-- logged in user information -->
 		<div class="profile_info">
 			<img src="images/user_profile.png">
@@ -61,23 +61,27 @@ for ($i = 0; $i < 6; $i++) {
 				<?php } ?>
 			</div>
 <?php
-
-	$query = "SELECT * FROM users WHERE id='$id'";
+	$id = '';
+	if ( $_REQUEST['id'] ) {
+		$id = $_REQUEST['id'];
+	} else {
+		$id = $_SESSION['user']['id'];
+	}
+	$query = "SELECT * FROM users WHERE id = $id";
 	$result = mysqli_query($db, $query);
 	$user = mysqli_fetch_assoc($result);
-	$user=['id'];
 ?>
 		</div>
         <form method="post" action="">
 <?php echo display_error(); ?>
 	<div class="input-group">
 		<label>Username</label>
-		<input type="text" name="username" value="<?php echo $str['username']; ?>">
+		<input type="text" name="username" value="<?php echo $user['username']; ?>">
 	</div>
 
      <div class="input-group">
 		<label>Department</label>
-		<input type="text" name="area" value="<?php echo $str['area']; ?>">
+		<input type="text" name="area" value="<?php echo $user['area']; ?>">
 	</div>
 
      <div class="input-group">
@@ -94,7 +98,7 @@ for ($i = 0; $i < 6; $i++) {
 	</div>
 	<div class="input-group">
 		<label>Email</label>
-		<input type="email" name="email" value="<?php echo $str['email']; ?>"/>
+		<input type="email" name="email" value="<?php echo $user['email']; ?>"/>
 	</div>
 	<div class="input-group">
 		<label>Descripcion</label>
